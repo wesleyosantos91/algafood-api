@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  mysqldb:
+    image: mysql:8.3.0
+    hostname: mysqldb
+    container_name: mysqldb
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dev
+volumes:
+    mysql:
