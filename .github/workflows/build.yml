@@ -2,13 +2,13 @@ name: Build and Test
 on:
   push:
     branches:
-      - master
+      - main
       - release-*
       - develop
       - feature/*
   pull_request:
     branches:
-      - master
+      - main
       - develop
 
 permissions:
