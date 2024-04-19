@@ -1,0 +1,65 @@
+package io.github.wesleyosantos91.algafoodapi.api.exception;
+
+import io.github.wesleyosantos91.algafoodapi.api.v1.response.ErrorResponse;
+import io.github.wesleyosantos91.algafoodapi.domain.exception.ResourceNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.filter.ServerHttpObservationFilter;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.net.URI;
+import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestControllerAdvice
+public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private final MessageSource messageSource;
+
+    public ApiExceptionHandler(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
+        List<ErrorResponse> errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> new ErrorResponse(fieldError.getField(), fieldError.getDefaultMessage()))
+                .collect(Collectors.toList());
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "The following errors occurred:");
+        problemDetail.setType(URI.create("about:blank"));
+        problemDetail.setTitle("Validation failed");
+        problemDetail.setStatus(HttpStatus.BAD_REQUEST.value());
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("errors", errors);
+        HttpServletRequest httpServletRequest = ((ServletWebRequest) request).getRequest();
+        ServerHttpObservationFilter.findObservationContext(httpServletRequest).ifPresent(context -> context.setError(ex));;
+
+        return super.handleMethodArgumentNotValid(ex, headers, status, request);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    private ResponseEntity<ProblemDetail> handleResourceNotFoundException(HttpServletRequest request,ResourceNotFoundException ex) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problemDetail.setTitle(HttpStatus.NOT_FOUND.getReasonPhrase());
+        problemDetail.setProperty("timestamp", Instant.now());
+        ServerHttpObservationFilter.findObservationContext(request).ifPresent(context -> context.setError(ex));
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
+    }
+}
