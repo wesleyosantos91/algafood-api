@@ -6,5 +6,5 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record ErrorResponse(String field, String messageError) {
+public record CozinhaResponse(Long id, String nome) {
 }

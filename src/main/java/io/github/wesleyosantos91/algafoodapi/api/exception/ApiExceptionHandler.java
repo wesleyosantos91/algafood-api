@@ -4,6 +4,7 @@ import io.github.wesleyosantos91.algafoodapi.api.v1.response.ErrorResponse;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -37,7 +38,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         List<ErrorResponse> errors = ex.getBindingResult().getFieldErrors().stream()
-                .map(fieldError -> new ErrorResponse(fieldError.getField(), fieldError.getDefaultMessage()))
+                .map(fieldError -> new ErrorResponse(fieldError.getField(), messageSource.getMessage(fieldError, LocaleContextHolder.getLocale())))
                 .collect(Collectors.toList());
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "The following errors occurred:");
@@ -49,11 +50,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         HttpServletRequest httpServletRequest = ((ServletWebRequest) request).getRequest();
         ServerHttpObservationFilter.findObservationContext(httpServletRequest).ifPresent(context -> context.setError(ex));;
 
-        return super.handleMethodArgumentNotValid(ex, headers, status, request);
+        return super.handleExceptionInternal(ex, problemDetail, headers, status, request);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    private ResponseEntity<ProblemDetail> handleResourceNotFoundException(HttpServletRequest request,ResourceNotFoundException ex) {
+    private ResponseEntity<ProblemDetail> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request) {
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setTitle(HttpStatus.NOT_FOUND.getReasonPhrase());
