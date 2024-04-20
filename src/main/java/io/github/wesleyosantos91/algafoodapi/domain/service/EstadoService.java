@@ -20,20 +20,20 @@ public class EstadoService {
     }
 
     @Transactional
-    public Estado save(Estado cozinha) {
-        return repository.save(cozinha);
+    public Estado save(Estado estado) {
+        return repository.save(estado);
     }
 
     @Transactional
-    public Estado update(Long id, Estado cozinha) {
-        return repository.save(cozinha);
+    public Estado update(Long id, Estado estado) {
+        return repository.save(estado);
     }
 
     @Transactional
     public void delete(Long id) {
 
-        Estado cozinha = findById(id);
-        repository.delete(cozinha);
+        Estado estado = findById(id);
+        repository.delete(estado);
     }
 
     public List<Estado> findAll() {

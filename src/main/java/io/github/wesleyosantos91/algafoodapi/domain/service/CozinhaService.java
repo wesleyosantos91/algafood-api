@@ -6,10 +6,9 @@ import io.github.wesleyosantos91.algafoodapi.domain.repository.CozinhaRepository
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.MessageFormat;
 import java.util.List;
 
-import static java.text.MessageFormat.*;
+import static java.text.MessageFormat.format;
 
 @Service
 public class CozinhaService {
