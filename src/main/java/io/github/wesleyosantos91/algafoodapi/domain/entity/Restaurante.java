@@ -1,16 +1,24 @@
 package io.github.wesleyosantos91.algafoodapi.domain.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +34,9 @@ public class Restaurante {
     @Column(name = "taxa_frete")
     private BigDecimal taxaFrete;
 
+    @Embedded
+    private Endereco endereco;
+
     private Boolean ativo;
 
     private Boolean aberto;
@@ -34,11 +45,19 @@ public class Restaurante {
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
-    @Column(name = "data_cadastro")
-    private LocalDate dataCadastro;
+    @ManyToMany
+    @JoinTable(name = "restaurante_forma_pagamento",
+            joinColumns = @JoinColumn(name = "restaurante_id"),
+            inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
+    private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
+    @CreationTimestamp
+    @Column(name = "data_cadastro")
+    private OffsetDateTime dataCadastro;
+
+    @UpdateTimestamp
     @Column(name = "data_atualizacao")
-    private LocalDate dataAtualizacao;
+    private OffsetDateTime dataAtualizacao;
 
     public Long getId() {
         return id;
@@ -62,6 +81,14 @@ public class Restaurante {
 
     public void setTaxaFrete(BigDecimal taxaFrete) {
         this.taxaFrete = taxaFrete;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public Boolean getAtivo() {
@@ -88,19 +115,27 @@ public class Restaurante {
         this.cozinha = cozinha;
     }
 
-    public LocalDate getDataCadastro() {
+    public List<FormaPagamento> getFormasPagamento() {
+        return formasPagamento;
+    }
+
+    public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
+        this.formasPagamento = formasPagamento;
+    }
+
+    public OffsetDateTime getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(LocalDate dataCadastro) {
+    public void setDataCadastro(OffsetDateTime dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 
-    public LocalDate getDataAtualizacao() {
+    public OffsetDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(LocalDate dataAtualizacao) {
+    public void setDataAtualizacao(OffsetDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 
@@ -116,4 +151,6 @@ public class Restaurante {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+
 }
