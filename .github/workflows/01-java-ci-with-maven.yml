@@ -36,11 +36,21 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+      - name: Create pull request - bugfix (conditional)
+        if: startsWith(github.ref, 'refs/heads/develop')
+        uses: devops-infra/action-pull-request@v0.5.5
+        with:
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          assignee: ${{ github.actor }}
+          label: bugfix
+          template: .github/ISSUE_TEMPLATE/PULL_REQUEST_TEMPLATE.md
+          get_diff: true
       - name: Create pull request - bugfix (conditional)
         if: startsWith(github.ref, 'refs/heads/bugfix')
         uses: devops-infra/action-pull-request@v0.5.5
         with:
+          target_branch: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
           assignee: ${{ github.actor }}
           label: bugfix
@@ -51,6 +61,7 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/dependency')
         uses: devops-infra/action-pull-request@v0.5.5
         with:
+          target_branch: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
           assignee: ${{ github.actor }}
           label: dependency
@@ -61,6 +72,7 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/documentation')
         uses: devops-infra/action-pull-request@v0.5.5
         with:
+          target_branch: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
           assignee: ${{ github.actor }}
           label: documentation
@@ -71,6 +83,7 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/feature')
         uses: devops-infra/action-pull-request@v0.5.5
         with:
+          target_branch: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
           assignee: ${{ github.actor }}
           label: feature
@@ -81,6 +94,7 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/test')
         uses: devops-infra/action-pull-request@v0.5.5
         with:
+          target_branch: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
           assignee: ${{ github.actor }}
           reviewer: ${{ github.actor }}
@@ -93,6 +107,7 @@ jobs:
         if: "!startsWith(github.ref, 'refs/heads/bugfix') && !startsWith(github.ref, 'refs/heads/dependabot') && !startsWith(github.ref, 'refs/heads/dependency') && !startsWith(github.ref, 'refs/heads/documentation')  && !startsWith(github.ref, 'refs/heads/feature') && !startsWith(github.ref, 'refs/heads/test')"
         uses: devops-infra/action-pull-request@v0.5.5
         with:
+          target_branch: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
           assignee: ${{ github.actor }}
           label: feature
