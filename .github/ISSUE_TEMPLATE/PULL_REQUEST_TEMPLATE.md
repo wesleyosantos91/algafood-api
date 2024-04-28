@@ -23,5 +23,5 @@
 
 *Check [CONTRIBUTING.md][contributing] and [CODE_OF_CONDUCT.md][code] for more information*
 
-[contributing]: https://github.com/wesleyosantos91/algafood-api/.github/ISSUE_TEMPLATE/CONTRIBUTING.md
-[code]: https://github.com/wesleyosantos91/algafood-api/.github/ISSUE_TEMPLATE/CODE_OF_CONDUCT.md
+[contributing]: https://github.com/wesleyosantos91/algafood-api/blob/main/.github/ISSUE_TEMPLATE/CODE_OF_CONDUCT.md
+[code]: https://github.com/wesleyosantos91/algafood-api/blob/main/.github/ISSUE_TEMPLATE/CODE_OF_CONDUCT.md

@@ -21,7 +21,6 @@ jobs:
         id: calculate-version
         uses: bitshifted/git-auto-semver@v1
 
-      # https://github.com/marketplace/actions/git-automatic-semantic-versioning
       - name: Use version
         run: echo "Calculated version:v${{ steps.calculate-version.outputs.version-string }}"
 
@@ -59,17 +58,3 @@ jobs:
       - name: Push image
         run: |
           docker image push ${{ secrets.DOCKERHUB_USERNAME }}/spring-algafood-api:v${{ steps.calculate-version.outputs.version-string }}
-
-      - name: Open Pull Request
-        uses: devops-infra/action-pull-request@v0.5.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: develop
-          target_branch: main
-          title: Automatic Pull Request
-          body: "This is an automatic pull request from the develop branch."
-          labels: |
-            - enhancement
-            - auto-pr
-          draft: false
-          allow_no_diff: false
