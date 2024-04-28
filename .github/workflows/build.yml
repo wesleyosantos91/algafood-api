@@ -1,4 +1,4 @@
-name: Build and Analyze
+name: Java CI with Maven and CodeQL
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ on:
       - develop
 jobs:
   build:
-    name: Build
+    name: Java CI with Maven
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
