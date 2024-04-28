@@ -36,5 +36,5 @@ Rules for contribution are very simple.
 ### Links
 * [Issues](../../issues)
 * [Pull Requests](../../pulls)
-* [README](./README.md)
+* [README](../../README.md)
 * [Code of Conduct](CODE_OF_CONDUCT.md)
