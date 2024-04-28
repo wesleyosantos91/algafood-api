@@ -46,12 +46,12 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/spring/algafood-api:v${{ steps.calculate-version.outputs.version-string }} .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/spring-algafood-api:v${{ steps.calculate-version.outputs.version-string }} .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/spring/algafood-api:v${{ steps.calculate-version.outputs.version-string }}'
+          image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/spring-algafood-api:v${{ steps.calculate-version.outputs.version-string }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -60,7 +60,7 @@ jobs:
 
       - name: Push image
         run: |
-          docker image push ${{ secrets.DOCKERHUB_USERNAME }}/spring/algafood-api:v${{ steps.calculate-version.outputs.version-string }}
+          docker image push ${{ secrets.DOCKERHUB_USERNAME }}/spring-algafood-api:v${{ steps.calculate-version.outputs.version-string }}
 
       - name: Open Pull Request
         uses: devops-infra/action-pull-request@v0.5.5
