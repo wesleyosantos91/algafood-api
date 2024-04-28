@@ -20,5 +20,8 @@ public class ContainerBaseTest {
         registry.add("spring.datasource.url", () -> "jdbc:mysql://" + mySQLContainer.getHost() + ":" + mySQLContainer.getMappedPort(3306) + "/dev?allowPublicKeyRetrieval=true&useSSL=false");
         registry.add("spring.datasource.username", mySQLContainer::getUsername);
         registry.add("spring.datasource.password", mySQLContainer::getPassword);
+        registry.add("spring.flyway.url", () -> "jdbc:mysql://" + mySQLContainer.getHost() + ":" + mySQLContainer.getMappedPort(3306) + "/dev?allowPublicKeyRetrieval=true&useSSL=false");
+        registry.add("spring.flyway.user", mySQLContainer::getUsername);
+        registry.add("spring.flyway.password", mySQLContainer::getPassword);
     }
 }
