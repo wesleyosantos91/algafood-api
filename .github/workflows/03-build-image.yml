@@ -35,6 +35,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'oracle'
+
       - name: Build with Maven
         run: mvn clean install
 
