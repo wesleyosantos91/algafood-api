@@ -14,8 +14,6 @@ jobs:
   analyze:
     name: Analyze CodeQL
     runs-on: ubuntu-latest
-    needs:
-      - repo
     permissions:
       actions: read
       contents: read
