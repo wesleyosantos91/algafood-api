@@ -10,26 +10,26 @@
 [![Build Image and Push to Docker Hub](https://github.com/wesleyosantos91/algafood-api/actions/workflows/03-build-image.yml/badge.svg)](https://github.com/wesleyosantos91/algafood-api/actions/workflows/03-build-image.yml)
 
 <p>
-  <a href="https://github.com/wesleyosantos91/springboot3-wiremock-mock-test-integration/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/wesleyosantos91/springboot3-wiremock-mock-test-integration" alt="contributors" />
+  <a href="https://github.com/wesleyosantos91/algafood-api/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/wesleyosantos91/algafood-api" alt="contributors" />
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/last-commit/wesleyosantos91/springboot3-wiremock-mock-test-integration" alt="last update" />
+    <img src="https://img.shields.io/github/last-commit/wesleyosantos91/algafood-api" alt="last update" />
   </a>
-  <a href="https://github.com/wesleyosantos91/springboot3-wiremock-mock-test-integration/network/members">
-    <img src="https://img.shields.io/github/forks/wesleyosantos91/springboot3-wiremock-mock-test-integration" alt="forks" />
+  <a href="https://github.com/wesleyosantos91/algafood-api/network/members">
+    <img src="https://img.shields.io/github/forks/wesleyosantos91/algafood-api" alt="forks" />
   </a>
-  <a href="https://github.com/wesleyosantos91/springboot3-wiremock-mock-test-integration/stargazers">
-    <img src="https://img.shields.io/github/stars/wesleyosantos91/springboot3-wiremock-mock-test-integration" alt="stars" />
+  <a href="https://github.com/wesleyosantos91/algafood-api/stargazers">
+    <img src="https://img.shields.io/github/stars/wesleyosantos91/algafood-api" alt="stars" />
   </a>
-  <a href="https://github.com/wesleyosantos91/springboot3-wiremock-mock-test-integration/issues/">
-    <img src="https://img.shields.io/github/issues/wesleyosantos91/springboot3-wiremock-mock-test-integration" alt="open issues" />
+  <a href="https://github.com/wesleyosantos91/algafood-api/issues/">
+    <img src="https://img.shields.io/github/issues/wesleyosantos91/algafood-api" alt="open issues" />
   </a>
-  <a href="https://github.com/wesleyosantos91/springboot3-wiremock-mock-test-integration/pulls/">
-    <img src="https://img.shields.io/github/issues-pr/wesleyosantos91/springboot3-wiremock-mock-test-integration" alt="pull requests" />
+  <a href="https://github.com/wesleyosantos91/algafood-api/pulls/">
+    <img src="https://img.shields.io/github/issues-pr/wesleyosantos91/algafood-api" alt="pull requests" />
   </a>
-  <a href="https://github.com/wesleyosantos91/springboot3-wiremock-mock-test-integration/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/wesleyosantos91/springboot3-wiremock-mock-test-integration" alt="license" />
+  <a href="https://github.com/wesleyosantos91/algafood-api/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/wesleyosantos91/algafood-api" alt="license" />
   </a>
 </p>
 
