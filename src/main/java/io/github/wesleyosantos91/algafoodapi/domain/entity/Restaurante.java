@@ -10,12 +10,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +51,9 @@ public class Restaurante {
             inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurante")
+    private List<Produto> produtos = new ArrayList<>();
+
     @CreationTimestamp
     @Column(name = "data_cadastro")
     private OffsetDateTime dataCadastro;
@@ -58,6 +61,7 @@ public class Restaurante {
     @UpdateTimestamp
     @Column(name = "data_atualizacao")
     private OffsetDateTime dataAtualizacao;
+
 
     public Long getId() {
         return id;
@@ -121,6 +125,14 @@ public class Restaurante {
 
     public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
         this.formasPagamento = formasPagamento;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     public OffsetDateTime getDataCadastro() {
