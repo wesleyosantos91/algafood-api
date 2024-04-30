@@ -39,5 +39,5 @@
 <!-- About the Project -->
 ## :star2: Sobre o projeto:
 <p>
-   Esse projeto tem como objetivo demostrar como remover as dependencias externas em teste de integração usando Springboot 3 e Wiremock.
+    Esse projeto é um sistema de delivery de comida, onde é possível realizar pedidos, gerenciar restaurantes, produtos, formas de pagamento, usuários, etc.
 </p>
