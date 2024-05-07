@@ -2,6 +2,7 @@ package io.github.wesleyosantos91.algafoodapi.domain.service;
 
 import io.github.wesleyosantos91.algafoodapi.domain.entity.Cozinha;
 import io.github.wesleyosantos91.algafoodapi.domain.entity.Restaurante;
+import io.github.wesleyosantos91.algafoodapi.domain.exception.BusinessException;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.ResourceNotFoundException;
 import io.github.wesleyosantos91.algafoodapi.domain.repository.RestauranteRepository;
 import org.springframework.stereotype.Service;
@@ -25,14 +26,18 @@ public class RestauranteService {
     @Transactional
     public Restaurante save(Restaurante restaurante) {
 
-        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
-        restaurante.setCozinha(cozinha);
-        return repository.save(restaurante);
+        try {
+            Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+            restaurante.setCozinha(cozinha);
+            return repository.save(restaurante);
+        } catch (ResourceNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
     }
 
     @Transactional
-    public Restaurante update(Long id, Restaurante restaurante) {
-        return repository.save(restaurante);
+    public Restaurante update(Restaurante restaurante) {
+        return save(restaurante);
     }
 
     @Transactional
@@ -48,6 +53,6 @@ public class RestauranteService {
 
     public Restaurante findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(format("Not found regitstry with code {0}", id)));
+                .orElseThrow(() -> new ResourceNotFoundException(format("Not found {0} registry with code {1}", Restaurante.class.getSimpleName(), id)));
     }
 }

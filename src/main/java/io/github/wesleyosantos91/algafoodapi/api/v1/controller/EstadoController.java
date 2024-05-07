@@ -37,18 +37,18 @@ public record EstadoController(EstadoService service, EstadoMapper mapper) {
     }
 
     @PostMapping
-    public ResponseEntity<EstadoResponse> save(@RequestBody @Valid EstadoRequest request) {
+    public ResponseEntity<EstadoResponse> save(@RequestBody @Valid EstadoRequest estadoRequest) {
 
-        Estado entiy = mapper.toEntiy(request);
+        Estado entiy = mapper.toEntiy(estadoRequest);
         Estado estadoSaved = service.save(entiy);
         return ResponseEntity.ok(mapper.toResponse(estadoSaved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EstadoResponse> update(@PathVariable Long id, @RequestBody @Valid EstadoRequest request) {
+    public ResponseEntity<EstadoResponse> update(@PathVariable Long id, @RequestBody @Valid EstadoRequest estadoRequest) {
 
         Estado estadoSaved = service.findById(id);
-        Estado estadoUpdated = service.update(id, mapper.toEntiy(request, estadoSaved));
+        Estado estadoUpdated = service.update(mapper.toEntiy(estadoRequest, estadoSaved));
         return ResponseEntity.ok(mapper.toResponse(estadoUpdated));
     }
 
