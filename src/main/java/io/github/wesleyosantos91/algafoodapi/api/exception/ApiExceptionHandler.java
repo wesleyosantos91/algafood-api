@@ -1,6 +1,7 @@
 package io.github.wesleyosantos91.algafoodapi.api.exception;
 
 import io.github.wesleyosantos91.algafoodapi.api.v1.response.ErrorResponse;
+import io.github.wesleyosantos91.algafoodapi.domain.exception.BusinessException;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.MessageSource;
@@ -60,5 +61,28 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ServerHttpObservationFilter.findObservationContext(request).ifPresent(context -> context.setError(ex));
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    private ResponseEntity<ProblemDetail> handleResourceBusinessException(BusinessException ex, HttpServletRequest request) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problemDetail.setTitle(HttpStatus.BAD_REQUEST.getReasonPhrase());
+        problemDetail.setProperty("timestamp", Instant.now());
+        ServerHttpObservationFilter.findObservationContext(request).ifPresent(context -> context.setError(ex));
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
+    }
+
+
+    @ExceptionHandler(Exception.class)
+    private ResponseEntity<ProblemDetail> handleUncaught(Exception ex, HttpServletRequest request) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problemDetail.setTitle(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+        problemDetail.setProperty("timestamp", Instant.now());
+        ServerHttpObservationFilter.findObservationContext(request).ifPresent(context -> context.setError(ex));
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
     }
 }

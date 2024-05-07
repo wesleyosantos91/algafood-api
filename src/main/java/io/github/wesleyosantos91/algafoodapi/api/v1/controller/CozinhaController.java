@@ -37,18 +37,18 @@ public record CozinhaController(CozinhaService service, CozinhaMapper mapper) {
     }
 
     @PostMapping
-    public ResponseEntity<CozinhaResponse> save(@RequestBody @Valid CozinhaRequest request) {
+    public ResponseEntity<CozinhaResponse> save(@RequestBody @Valid CozinhaRequest cozinhaRequest) {
 
-        Cozinha entiy = mapper.toEntiy(request);
+        Cozinha entiy = mapper.toEntiy(cozinhaRequest);
         Cozinha cozinhaSaved = service.save(entiy);
         return ResponseEntity.ok(mapper.toResponse(cozinhaSaved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CozinhaResponse> update(@PathVariable Long id, @RequestBody @Valid CozinhaRequest request) {
+    public ResponseEntity<CozinhaResponse> update(@PathVariable Long id, @RequestBody @Valid CozinhaRequest cozinhaRequest) {
 
         Cozinha cozinhaSaved = service.findById(id);
-        Cozinha cozinhaUpdated = service.update(id, mapper.toEntiy(request, cozinhaSaved));
+        Cozinha cozinhaUpdated = service.update(mapper.toEntiy(cozinhaRequest, cozinhaSaved));
         return ResponseEntity.ok(mapper.toResponse(cozinhaUpdated));
     }
 

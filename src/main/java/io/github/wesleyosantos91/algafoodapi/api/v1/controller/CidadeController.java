@@ -37,18 +37,18 @@ public record CidadeController(CidadeService service, CidadeMapper mapper) {
     }
 
     @PostMapping
-    public ResponseEntity<CidadeResponse> save(@RequestBody @Valid CidadeRequest request) {
+    public ResponseEntity<CidadeResponse> save(@RequestBody @Valid CidadeRequest cidadeRequest) {
 
-        Cidade entiy = mapper.toEntiy(request);
+        Cidade entiy = mapper.toEntiy(cidadeRequest);
         Cidade cidadeSaved = service.save(entiy);
         return ResponseEntity.ok(mapper.toResponse(cidadeSaved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CidadeResponse> update(@PathVariable Long id, @RequestBody @Valid CidadeRequest request) {
+    public ResponseEntity<CidadeResponse> update(@PathVariable Long id, @RequestBody @Valid CidadeRequest cidadeRequest) {
 
         Cidade cidadeSaved = service.findById(id);
-        Cidade cidadeUpdated = service.update(id, mapper.toEntiy(request, cidadeSaved));
+        Cidade cidadeUpdated = service.update(mapper.toEntiy(cidadeRequest, cidadeSaved));
         return ResponseEntity.ok(mapper.toResponse(cidadeUpdated));
     }
 
