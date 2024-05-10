@@ -37,18 +37,18 @@ public record RestauranteController(RestauranteService service, RestauranteMappe
     }
 
     @PostMapping
-    public ResponseEntity<RestauranteResponse> save(@RequestBody @Valid RestauranteRequest request) {
+    public ResponseEntity<RestauranteResponse> save(@RequestBody @Valid RestauranteRequest restauranteRequest) {
 
-        Restaurante entiy = mapper.toEntiy(request);
+        Restaurante entiy = mapper.toEntiy(restauranteRequest);
         Restaurante restauranteSaved = service.save(entiy);
         return ResponseEntity.ok(mapper.toResponse(restauranteSaved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RestauranteResponse> update(@PathVariable Long id, @RequestBody @Valid RestauranteRequest request) {
+    public ResponseEntity<RestauranteResponse> update(@PathVariable Long id, @RequestBody @Valid RestauranteRequest restauranteRequest) {
 
         Restaurante restauranteSaved = service.findById(id);
-        Restaurante restauranteUpdated = service.update(id, mapper.toEntiy(request, restauranteSaved));
+        Restaurante restauranteUpdated = service.update(mapper.toEntiy(restauranteRequest, restauranteSaved));
         return ResponseEntity.ok(mapper.toResponse(restauranteUpdated));
     }
 

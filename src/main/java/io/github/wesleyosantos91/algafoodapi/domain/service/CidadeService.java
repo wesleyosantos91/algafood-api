@@ -2,6 +2,7 @@ package io.github.wesleyosantos91.algafoodapi.domain.service;
 
 import io.github.wesleyosantos91.algafoodapi.domain.entity.Cidade;
 import io.github.wesleyosantos91.algafoodapi.domain.entity.Estado;
+import io.github.wesleyosantos91.algafoodapi.domain.exception.BusinessException;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.ResourceNotFoundException;
 import io.github.wesleyosantos91.algafoodapi.domain.repository.CidadeRepository;
 import org.springframework.stereotype.Service;
@@ -24,15 +25,18 @@ public class CidadeService {
 
     @Transactional
     public Cidade save(Cidade cidade) {
-
-        Estado estado = estadoService.findById(cidade.getEstado().getId());
-        cidade.setEstado(estado);
-        return repository.save(cidade);
+        try {
+            Estado estado = estadoService.findById(cidade.getEstado().getId());
+            cidade.setEstado(estado);
+            return repository.save(cidade);
+        } catch (ResourceNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
     }
 
     @Transactional
-    public Cidade update(Long id, Cidade cidade) {
-        return repository.save(cidade);
+    public Cidade update(Cidade cidade) {
+        return save(cidade);
     }
 
     @Transactional
@@ -48,6 +52,6 @@ public class CidadeService {
 
     public Cidade findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(format("Not found regitstry with code {0}", id)));
+                .orElseThrow(() -> new ResourceNotFoundException(format("Not found {0} registry with code {1}", Cidade.class.getSimpleName(), id)));
     }
 }
