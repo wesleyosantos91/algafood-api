@@ -4,6 +4,9 @@ import io.github.wesleyosantos91.algafoodapi.api.v1.response.ErrorResponse;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.BusinessException;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.time.Instant;
+import java.util.List;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
@@ -19,14 +22,10 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.filter.ServerHttpObservationFilter;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.net.URI;
-import java.time.Instant;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+    public static final String TIMESTAMP = "timestamp";
     private final MessageSource messageSource;
 
     public ApiExceptionHandler(MessageSource messageSource) {
@@ -34,20 +33,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatusCode status,
+                                                                  WebRequest request) {
 
-        List<ErrorResponse> errors = ex.getBindingResult().getFieldErrors().stream()
+        final List<ErrorResponse> errors = ex.getBindingResult().getFieldErrors().stream()
                 .map(fieldError -> new ErrorResponse(fieldError.getField(), messageSource.getMessage(fieldError, LocaleContextHolder.getLocale())))
-                .collect(Collectors.toList());
+                .toList();
 
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "The following errors occurred:");
+        final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "The following errors occurred:");
         problemDetail.setType(URI.create("about:blank"));
         problemDetail.setTitle("Validation failed");
         problemDetail.setStatus(HttpStatus.BAD_REQUEST.value());
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty(TIMESTAMP, Instant.now());
         problemDetail.setProperty("errors", errors);
-        HttpServletRequest httpServletRequest = ((ServletWebRequest) request).getRequest();
-        ServerHttpObservationFilter.findObservationContext(httpServletRequest).ifPresent(context -> context.setError(ex));;
+        final HttpServletRequest httpServletRequest = ((ServletWebRequest) request).getRequest();
+        ServerHttpObservationFilter.findObservationContext(httpServletRequest).ifPresent(context -> context.setError(ex));
 
         return super.handleExceptionInternal(ex, problemDetail, headers, status, request);
     }
@@ -55,9 +57,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     private ResponseEntity<ProblemDetail> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request) {
 
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setTitle(HttpStatus.NOT_FOUND.getReasonPhrase());
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty(TIMESTAMP, Instant.now());
         ServerHttpObservationFilter.findObservationContext(request).ifPresent(context -> context.setError(ex));
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
@@ -66,9 +68,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     private ResponseEntity<ProblemDetail> handleResourceBusinessException(BusinessException ex, HttpServletRequest request) {
 
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
         problemDetail.setTitle(HttpStatus.BAD_REQUEST.getReasonPhrase());
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty(TIMESTAMP, Instant.now());
         ServerHttpObservationFilter.findObservationContext(request).ifPresent(context -> context.setError(ex));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
@@ -78,9 +80,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     private ResponseEntity<ProblemDetail> handleUncaught(Exception ex, HttpServletRequest request) {
 
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
         problemDetail.setTitle(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty(TIMESTAMP, Instant.now());
         ServerHttpObservationFilter.findObservationContext(request).ifPresent(context -> context.setError(ex));
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);

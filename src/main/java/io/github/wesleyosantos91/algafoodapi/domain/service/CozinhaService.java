@@ -1,14 +1,13 @@
 package io.github.wesleyosantos91.algafoodapi.domain.service;
 
+import static java.text.MessageFormat.format;
+
 import io.github.wesleyosantos91.algafoodapi.domain.entity.Cozinha;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.ResourceNotFoundException;
 import io.github.wesleyosantos91.algafoodapi.domain.repository.CozinhaRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static java.text.MessageFormat.format;
 
 @Service
 public class CozinhaService {
@@ -32,7 +31,7 @@ public class CozinhaService {
     @Transactional
     public void delete(Long id) {
 
-        Cozinha cozinha = findById(id);
+        final Cozinha cozinha = findById(id);
         repository.delete(cozinha);
     }
 

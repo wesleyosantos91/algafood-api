@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import java.util.Objects;
 
 @Entity
@@ -50,9 +49,12 @@ public class Cidade {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cidade cidade = (Cidade) o;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Cidade cidade)) {
+            return false;
+        }
         return Objects.equals(id, cidade.id);
     }
 

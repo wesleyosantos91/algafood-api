@@ -1,14 +1,13 @@
 package io.github.wesleyosantos91.algafoodapi.domain.service;
 
+import static java.text.MessageFormat.format;
+
 import io.github.wesleyosantos91.algafoodapi.domain.entity.Estado;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.ResourceNotFoundException;
 import io.github.wesleyosantos91.algafoodapi.domain.repository.EstadoRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static java.text.MessageFormat.format;
 
 @Service
 public class EstadoService {
@@ -32,7 +31,7 @@ public class EstadoService {
     @Transactional
     public void delete(Long id) {
 
-        Estado estado = findById(id);
+        final Estado estado = findById(id);
         repository.delete(estado);
     }
 
