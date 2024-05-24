@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,9 +51,12 @@ public class Cozinha {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cozinha cozinha = (Cozinha) o;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Cozinha cozinha)) {
+            return false;
+        }
         return Objects.equals(id, cozinha.id);
     }
 

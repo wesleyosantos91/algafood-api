@@ -5,15 +5,10 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.github.wesleyosantos91.algafoodapi.core.validation.Groups;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.groups.ConvertGroup;
-import jakarta.validation.groups.Default;
-
 import java.math.BigDecimal;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -21,6 +16,7 @@ import java.math.BigDecimal;
 public record RestauranteRequest(
         @NotBlank
         String nome,
+        @NotNull
         @PositiveOrZero
         BigDecimal taxaFrete,
         @Valid

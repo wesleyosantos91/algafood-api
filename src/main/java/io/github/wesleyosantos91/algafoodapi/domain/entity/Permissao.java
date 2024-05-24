@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 import java.util.Objects;
 
 @Entity
@@ -46,9 +45,12 @@ public class Permissao {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Permissao permissao = (Permissao) o;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Permissao permissao)) {
+            return false;
+        }
         return Objects.equals(id, permissao.id);
     }
 

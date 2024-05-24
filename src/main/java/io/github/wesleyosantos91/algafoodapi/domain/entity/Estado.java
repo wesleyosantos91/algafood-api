@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 import java.util.Objects;
 
 @Entity
@@ -37,9 +36,12 @@ public class Estado {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Estado estado = (Estado) o;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Estado estado)) {
+            return false;
+        }
         return Objects.equals(id, estado.id);
     }
 

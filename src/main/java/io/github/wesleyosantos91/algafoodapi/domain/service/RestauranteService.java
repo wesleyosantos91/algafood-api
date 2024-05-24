@@ -1,16 +1,15 @@
 package io.github.wesleyosantos91.algafoodapi.domain.service;
 
+import static java.text.MessageFormat.format;
+
 import io.github.wesleyosantos91.algafoodapi.domain.entity.Cozinha;
 import io.github.wesleyosantos91.algafoodapi.domain.entity.Restaurante;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.BusinessException;
 import io.github.wesleyosantos91.algafoodapi.domain.exception.ResourceNotFoundException;
 import io.github.wesleyosantos91.algafoodapi.domain.repository.RestauranteRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static java.text.MessageFormat.format;
 
 @Service
 public class RestauranteService {
@@ -27,7 +26,7 @@ public class RestauranteService {
     public Restaurante save(Restaurante restaurante) {
 
         try {
-            Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+            final Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
             restaurante.setCozinha(cozinha);
             return repository.save(restaurante);
         } catch (ResourceNotFoundException e) {
@@ -37,13 +36,13 @@ public class RestauranteService {
 
     @Transactional
     public Restaurante update(Restaurante restaurante) {
-        return save(restaurante);
+        return this.save(restaurante);
     }
 
     @Transactional
     public void delete(Long id) {
 
-        Restaurante restaurante = findById(id);
+        final Restaurante restaurante = findById(id);
         repository.delete(restaurante);
     }
 
@@ -53,6 +52,7 @@ public class RestauranteService {
 
     public Restaurante findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(format("Not found {0} registry with code {1}", Restaurante.class.getSimpleName(), id)));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        format("Not found {0} registry with code {1}", Restaurante.class.getSimpleName(), id)));
     }
 }

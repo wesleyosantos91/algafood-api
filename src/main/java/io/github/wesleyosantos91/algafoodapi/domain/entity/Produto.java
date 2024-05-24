@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -81,9 +80,12 @@ public class Produto {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Produto produto = (Produto) o;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Produto produto)) {
+            return false;
+        }
         return Objects.equals(id, produto.id);
     }
 
