@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
 @Mapper(
         componentModel = "spring",
         nullValuePropertyMappingStrategy = IGNORE,
-        nullValueCheckStrategy = ALWAYS
+        nullValueCheckStrategy = ALWAYS,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface RestauranteMapper {
 
