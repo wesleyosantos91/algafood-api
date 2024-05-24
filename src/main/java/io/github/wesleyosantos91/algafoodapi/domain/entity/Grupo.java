@@ -8,7 +8,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -55,10 +54,13 @@ public class Grupo {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Grupo permissao = (Grupo) o;
-        return Objects.equals(id, permissao.id);
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Grupo grupo)) {
+            return false;
+        }
+        return Objects.equals(id, grupo.id);
     }
 
     @Override

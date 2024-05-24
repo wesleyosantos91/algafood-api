@@ -9,11 +9,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import org.hibernate.annotations.CreationTimestamp;
+
 
 @Entity
 @Table(name = "usuario")
@@ -75,5 +76,21 @@ public class Usuario {
 
     public void setGrupos(List<Grupo> grupos) {
         this.grupos = grupos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Usuario usuario)) {
+            return false;
+        }
+        return Objects.equals(id, usuario.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

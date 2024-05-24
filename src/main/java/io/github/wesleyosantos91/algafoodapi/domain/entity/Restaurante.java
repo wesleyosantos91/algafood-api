@@ -13,14 +13,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "restaurante")
@@ -156,9 +155,12 @@ public class Restaurante {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Restaurante that = (Restaurante) o;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Restaurante that)) {
+            return false;
+        }
         return Objects.equals(id, that.id);
     }
 
@@ -166,6 +168,4 @@ public class Restaurante {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
-
 }
