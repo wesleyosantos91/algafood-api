@@ -24,18 +24,11 @@ public class CidadeService {
 
     @Transactional
     public Cidade save(Cidade cidade) {
-        try {
-            final Estado estado = estadoService.findById(cidade.getEstado().getId());
-            cidade.setEstado(estado);
-            return repository.save(cidade);
-        } catch (ResourceNotFoundException e) {
-            throw new BusinessException(e.getMessage(), e);
-        }
+        return saveAndUpdate(cidade);
     }
 
-    @Transactional
     public Cidade update(Cidade cidade) {
-        return save(cidade);
+        return saveAndUpdate(cidade);
     }
 
     @Transactional
@@ -52,5 +45,15 @@ public class CidadeService {
     public Cidade findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(format("Not found {0} registry with code {1}", Cidade.class.getSimpleName(), id)));
+    }
+
+    private Cidade saveAndUpdate(Cidade cidade) {
+        try {
+            final Estado estado = estadoService.findById(cidade.getEstado().getId());
+            cidade.setEstado(estado);
+            return repository.save(cidade);
+        } catch (ResourceNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
     }
 }

@@ -20,12 +20,12 @@ public class CozinhaService {
 
     @Transactional
     public Cozinha save(Cozinha cozinha) {
-        return repository.save(cozinha);
+        return saveAndUpdate(cozinha);
     }
 
     @Transactional
     public Cozinha update(Cozinha cozinha) {
-        return save(cozinha);
+        return saveAndUpdate(cozinha);
     }
 
     @Transactional
@@ -42,5 +42,9 @@ public class CozinhaService {
     public Cozinha findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(format("Not found {0} registry with code {1}", Cozinha.class.getSimpleName(), id)));
+    }
+
+    private Cozinha saveAndUpdate(Cozinha cozinha) {
+        return repository.save(cozinha);
     }
 }

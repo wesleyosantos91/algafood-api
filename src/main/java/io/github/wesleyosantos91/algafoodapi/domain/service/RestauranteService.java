@@ -24,19 +24,12 @@ public class RestauranteService {
 
     @Transactional
     public Restaurante save(Restaurante restaurante) {
-
-        try {
-            final Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
-            restaurante.setCozinha(cozinha);
-            return repository.save(restaurante);
-        } catch (ResourceNotFoundException e) {
-            throw new BusinessException(e.getMessage(), e);
-        }
+        return saveAndUpdate(restaurante);
     }
 
     @Transactional
     public Restaurante update(Restaurante restaurante) {
-        return this.save(restaurante);
+        return saveAndUpdate(restaurante);
     }
 
     @Transactional
@@ -54,5 +47,15 @@ public class RestauranteService {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         format("Not found {0} registry with code {1}", Restaurante.class.getSimpleName(), id)));
+    }
+
+    private Restaurante saveAndUpdate(Restaurante restaurante) {
+        try {
+            final Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+            restaurante.setCozinha(cozinha);
+            return repository.save(restaurante);
+        } catch (ResourceNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
     }
 }

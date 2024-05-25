@@ -20,12 +20,12 @@ public class EstadoService {
 
     @Transactional
     public Estado save(Estado estado) {
-        return repository.save(estado);
+        return saveAndUpdate(estado);
     }
 
     @Transactional
     public Estado update(Estado estado) {
-        return save(estado);
+        return saveAndUpdate(estado);
     }
 
     @Transactional
@@ -42,5 +42,9 @@ public class EstadoService {
     public Estado findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(format("Not found {0} registry with code {1}", Estado.class.getSimpleName(), id)));
+    }
+
+    private Estado saveAndUpdate(Estado estado) {
+        return repository.save(estado);
     }
 }
