@@ -7,6 +7,7 @@ import io.github.wesleyosantos91.algafoodapi.domain.entity.Restaurante;
 import io.github.wesleyosantos91.algafoodapi.domain.service.RestauranteService;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public record RestauranteController(RestauranteService service, RestauranteMappe
     public ResponseEntity<List<RestauranteResponse>> list() {
 
         final List<Restaurante> restaurantes = service.findAll();
-        return ResponseEntity.ok(mapper.toListResponse(restaurantes));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toListResponse(restaurantes));
     }
 
     @GetMapping("/{id}")

@@ -7,6 +7,7 @@ import io.github.wesleyosantos91.algafoodapi.domain.entity.Estado;
 import io.github.wesleyosantos91.algafoodapi.domain.service.EstadoService;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public record EstadoController(EstadoService service, EstadoMapper mapper) {
 
         final Estado entiy = mapper.toEntiy(estadoRequest);
         final Estado estadoSaved = service.save(entiy);
-        return ResponseEntity.ok(mapper.toResponse(estadoSaved));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(estadoSaved));
     }
 
     @PutMapping("/{id}")

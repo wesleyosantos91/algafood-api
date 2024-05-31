@@ -7,6 +7,7 @@ import io.github.wesleyosantos91.algafoodapi.domain.entity.Cidade;
 import io.github.wesleyosantos91.algafoodapi.domain.service.CidadeService;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public record CidadeController(CidadeService service, CidadeMapper mapper) {
 
         final Cidade entiy = mapper.toEntiy(cidadeRequest);
         final Cidade cidadeSaved = service.save(entiy);
-        return ResponseEntity.ok(mapper.toResponse(cidadeSaved));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(cidadeSaved));
     }
 
     @PutMapping("/{id}")

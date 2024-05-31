@@ -7,6 +7,7 @@ import io.github.wesleyosantos91.algafoodapi.domain.entity.Cozinha;
 import io.github.wesleyosantos91.algafoodapi.domain.service.CozinhaService;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public record CozinhaController(CozinhaService service, CozinhaMapper mapper) {
 
         final Cozinha entiy = mapper.toEntiy(cozinhaRequest);
         final Cozinha cozinhaSaved = service.save(entiy);
-        return ResponseEntity.ok(mapper.toResponse(cozinhaSaved));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(cozinhaSaved));
     }
 
     @PutMapping("/{id}")
