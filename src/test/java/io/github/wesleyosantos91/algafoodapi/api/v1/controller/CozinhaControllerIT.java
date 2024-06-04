@@ -2,9 +2,9 @@ package io.github.wesleyosantos91.algafoodapi.api.v1.controller;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import io.github.wesleyosantos91.algafoodapi.utils.config.ContainerBaseConfig;
 import io.github.wesleyosantos91.algafoodapi.api.v1.request.CozinhaRequest;
 import io.github.wesleyosantos91.algafoodapi.api.v1.response.CozinhaResponse;
+import io.github.wesleyosantos91.algafoodapi.utils.config.ContainerBaseConfig;
 import io.github.wesleyosantos91.algafoodapi.utils.fixture.cozinha.CozinhaRequestTemplateLoader;
 import java.util.Objects;
 import org.junit.jupiter.api.DisplayName;

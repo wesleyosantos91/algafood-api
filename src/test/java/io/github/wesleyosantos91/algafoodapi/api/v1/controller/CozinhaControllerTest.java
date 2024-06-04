@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import io.github.wesleyosantos91.algafoodapi.api.v1.mapper.CozinhaMapper;
 import io.github.wesleyosantos91.algafoodapi.api.v1.request.CozinhaRequest;
-import io.github.wesleyosantos91.algafoodapi.api.v1.response.CozinhaResponse;
 import io.github.wesleyosantos91.algafoodapi.domain.entity.Cozinha;
 import io.github.wesleyosantos91.algafoodapi.domain.service.CozinhaService;
 import io.github.wesleyosantos91.algafoodapi.utils.fixture.cozinha.CozinhaResponseTemplateLoader;
